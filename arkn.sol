@@ -4,11 +4,13 @@ pragma solidity ^0.8.3;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Snapshot.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 
-contract ARKN is ERC20, ERC20Burnable, ERC20Snapshot, Ownable, Pausable {
+
+contract ARKN is ERC20,ERC20Permit, ERC20Burnable, ERC20Snapshot, Ownable, Pausable {
 
     using SafeMath for uint;
 
@@ -21,7 +23,7 @@ contract ARKN is ERC20, ERC20Burnable, ERC20Snapshot, Ownable, Pausable {
 
     mapping(address=> bool) public whitelistBotMaxBalance;
 
-    constructor() ERC20("ArkRivals", "ARKN") {
+    constructor() ERC20("ArkRivals", "ARKN") ERC20Permit("ArkRivals") {
         totalTokens = 10 ** 9 * 10 ** uint256(decimals()); // 1 billion total supply.
         _mint(owner(), totalTokens);  
         maxTransferWhenAntiBot = 5000 * 10 ** uint256(decimals());
